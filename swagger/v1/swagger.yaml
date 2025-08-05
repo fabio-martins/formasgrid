@@ -1,0 +1,161 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/circles":
+    get:
+      summary: List circles with filters
+      tags:
+      - Circles
+      parameters:
+      - name: center_x
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: center_y
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: radius
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: frame_id
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: circles found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    center_x:
+                      type: number
+                    center_y:
+                      type: number
+                    radius:
+                      type: number
+                    frame_id:
+                      type: integer
+        '422':
+          description: invalid request
+  "/circles/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    put:
+      summary: Update a circle
+      tags:
+      - Circles
+      parameters: []
+      responses:
+        '200':
+          description: circle updated
+        '422':
+          description: invalid update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                center_x:
+                  type: number
+                center_y:
+                  type: number
+                radius:
+                  type: number
+    delete:
+      summary: Delete a circle
+      tags:
+      - Circles
+      responses:
+        '204':
+          description: circle deleted
+  "/frames":
+    post:
+      summary: Create a frame
+      tags:
+      - Frames
+      parameters: []
+      responses:
+        '201':
+          description: frame with circles created
+        '422':
+          description: invalid params
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                center_x:
+                  type: number
+                center_y:
+                  type: number
+                width:
+                  type: number
+                height:
+                  type: number
+                circles:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      center_x:
+                        type: number
+                      center_y:
+                        type: number
+                      radius:
+                        type: number
+              required:
+              - center_x
+              - center_y
+              - width
+              - height
+  "/frames/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Retrieve a frame
+      tags:
+      - Frames
+      responses:
+        '200':
+          description: frame found
+        '404':
+          description: frame not found
+    delete:
+      summary: Delete a frame
+      tags:
+      - Frames
+      responses:
+        '204':
+          description: frame deleted
+        '422':
+          description: cannot delete frame with circles
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

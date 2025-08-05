@@ -55,6 +55,7 @@ group :development, :test do
   gem "pry-rails"
 
   gem "factory_bot_rails", "~> 6.0"
+  gem 'rswag'
 end
 
 group :test do
