@@ -1,0 +1,45 @@
+services:
+  formasgrid-app:
+    command: bash -c "bundle exec rails db:prepare && rails assets:precompile && bundle exec rails s -b 0.0.0.0"
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: formasgrid-app
+    volumes:
+      - .:/usr/src/formasgrid
+    expose:
+      - "3000"
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+    environment:
+      DATABASE_HOST: ${DATABASE_HOST:-database}
+      DATABASE: ${DATABASE:-formasgrid_development}
+      DATABASE_TEST: ${DATABASE_TEST:-formasgrid_test}
+      DBUSER: ${POSTGRES_USER:-postgres}
+      DBPASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    depends_on:
+      - database
+    networks:
+      - formasgrid_network
+      - sig_services_network
+  database:
+    image: postgres:alpine
+    container_name: database
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "127.0.0.1:54321:5432"
+    networks:
+      - formasgrid_network
+
+volumes:
+  postgresql:
+
+networks:
+  formasgrid_network:
+    driver: bridge
