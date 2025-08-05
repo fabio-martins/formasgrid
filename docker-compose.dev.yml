@@ -1,6 +1,6 @@
 services:
   formasgrid-app:
-    command: bash -c "bundle exec rails db:prepare && rails assets:precompile && bundle exec rails s -b 0.0.0.0"
+    command: bash -c "bundle exec rails db:prepare && bundle exec rails s -b 0.0.0.0"
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -14,7 +14,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      DATABASE_HOST: ${DATABASE_HOST:-database}
+      DATABASE_HOST: ${DATABASE_HOST:-formasgrid_database}
       DATABASE: ${DATABASE:-formasgrid_development}
       DATABASE_TEST: ${DATABASE_TEST:-formasgrid_test}
       DBUSER: ${POSTGRES_USER:-postgres}

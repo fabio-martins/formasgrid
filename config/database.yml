@@ -1,0 +1,28 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV.fetch("DATABASE_HOST", "formasgrid_database") %>
+  username: <%= ENV.fetch("DBUSER", "postgres") %>
+  password: <%= ENV.fetch("DBPASSWORD", "postgres") %>
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: formasgrid_development
+
+test:
+  <<: *default
+  database: formasgrid_test
+
+production:
+  primary:
+    <<: *default
+    database: <%= ENV.fetch("DATABASE", "formasgrid") %>
+  cable:
+    <<: *default
+    database: <%= ENV.fetch("DATABASE", "formasgrid") %>
+  queue:
+    <<: *default
+    database: <%= ENV.fetch("DATABASE", "formasgrid") %>
+    
