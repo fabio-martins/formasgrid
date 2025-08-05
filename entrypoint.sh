@@ -11,8 +11,8 @@ if [ "$WAIT_FOR_DB" = "true" ]; then
   done
 fi
 
-echo "✅ Migrando banco..."
-rails db:migrate
+echo "✅ Criando e migrando banco (db:prepare)..."
+rails db:prepare
 
 # Remove o arquivo pid do servidor, se existir
 rm -f tmp/pids/server.pid
