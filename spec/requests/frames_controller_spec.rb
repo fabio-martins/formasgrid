@@ -28,8 +28,8 @@ RSpec.describe "Frames API", type: :request do
       it "creates a frame with circles" do
         params = valid_frame_params.deep_merge(
           circles: [
-            { center_x: 10.0, center_y: 10.0, diameter: 4.0 },
-            { center_x: 20.0, center_y: 10.0, diameter: 4.0 }
+            { center_x: 10.0, center_y: 10.0, radius: 4.0 },
+            { center_x: 20.0, center_y: 10.0, radius: 4.0 }
           ]
         )
 
@@ -80,7 +80,7 @@ RSpec.describe "Frames API", type: :request do
 
     context "when frame has circles" do
       let!(:frame) { create(:frame, center_x: 1, center_y: 2, width: 10, height: 10) }
-      let!(:circle) { create(:circle, frame: frame, center_x: 2, center_y: 3, diameter: 2) }
+      let!(:circle) { create(:circle, frame: frame, center_x: 2, center_y: 3, radius: 2) }
 
       it "does not delete the frame" do
         expect {

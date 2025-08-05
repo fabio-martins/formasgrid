@@ -3,6 +3,6 @@ FactoryBot.define do
     frame
     center_x { 5.0 }
     center_y { 5.0 }
-    diameter { 5.0 }
+    radius { 5.0 }
   end
 end

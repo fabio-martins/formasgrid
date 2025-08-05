@@ -9,7 +9,7 @@ RSpec.describe Circle, type: :model do
   # Validations
   it { is_expected.to validate_presence_of(:center_x) }
   it { is_expected.to validate_presence_of(:center_y) }
-  it { is_expected.to validate_presence_of(:diameter) }
+  it { is_expected.to validate_presence_of(:radius) }
 
   context 'with valid attributes' do
     it 'is valid' do
@@ -30,21 +30,21 @@ RSpec.describe Circle, type: :model do
       expect(subject.errors[:center_y]).to include("can't be blank")
     end
 
-    it 'is not valid without diameter' do
-      subject.diameter = nil
+    it 'is not valid without radius' do
+      subject.radius = nil
       expect(subject).not_to be_valid
-      expect(subject.errors[:diameter]).to include("can't be blank")
+      expect(subject.errors[:radius]).to include("can't be blank")
     end
   end
 
   context 'when circles intersect in the same frame' do
     let(:frame) { create(:frame) }
     before do
-      create(:circle, frame: frame, center_x: 5.0, center_y: 5.0, diameter: 5.0)
+      create(:circle, frame: frame, center_x: 5.0, center_y: 5.0, radius: 5.0)
     end
 
     it 'is not valid if it intersects another circle' do
-      overlapping_circle = build(:circle, frame: frame, center_x: 5.0, center_y: 5.0, diameter: 5.0)
+      overlapping_circle = build(:circle, frame: frame, center_x: 5.0, center_y: 5.0, radius: 5.0)
       expect(overlapping_circle).not_to be_valid
       expect(overlapping_circle.errors[:base]).to include(/intersect/i)
     end

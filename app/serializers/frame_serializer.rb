@@ -47,7 +47,7 @@ class FrameSerializer < ActiveModel::Serializer
       id:        circle.id,
       center_x:  circle.center_x.to_f,
       center_y:  circle.center_y.to_f,
-      diameter:  circle.diameter.to_f
+      radius:  circle.radius.to_f
     }
   end
 end

@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2023_08_05_013438) do
+ActiveRecord::Schema[8.0].define(version: 2023_08_05_013439) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "circles", force: :cascade do |t|
     t.decimal "center_x", precision: 10, scale: 2
     t.decimal "center_y", precision: 10, scale: 2
-    t.decimal "diameter", precision: 10, scale: 2
+    t.decimal "radius", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "frame_id"
