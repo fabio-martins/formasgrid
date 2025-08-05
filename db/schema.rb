@@ -10,21 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2023_08_05_013436) do
+ActiveRecord::Schema[8.0].define(version: 2023_08_05_013438) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "circles", force: :cascade do |t|
-    t.bigint "square_id", null: false
     t.decimal "center_x", precision: 10, scale: 2
     t.decimal "center_y", precision: 10, scale: 2
     t.decimal "diameter", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["square_id"], name: "index_circles_on_square_id"
+    t.bigint "frame_id"
   end
 
-  create_table "squares", force: :cascade do |t|
+  create_table "frames", force: :cascade do |t|
     t.decimal "center_x", precision: 10, scale: 2
     t.decimal "center_y", precision: 10, scale: 2
     t.decimal "width", precision: 10, scale: 2
@@ -33,5 +32,5 @@ ActiveRecord::Schema[8.0].define(version: 2023_08_05_013436) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "circles", "squares"
+  add_foreign_key "circles", "frames"
 end

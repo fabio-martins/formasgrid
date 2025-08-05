@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Square, type: :model do
-  subject { build(:square) }
+RSpec.describe Frame, type: :model do
+  subject { build(:frame) }
 
   # Associations
   it { is_expected.to have_many(:circles).dependent(:destroy) }
@@ -44,15 +44,15 @@ RSpec.describe Square, type: :model do
     end
   end
 
-  context 'when intersecting with another square' do
+  context 'when intersecting with another frame' do
     before do
-      create(:square, center_x: 5.0, center_y: 5.0, width: 10.0, height: 10.0)
+      create(:frame, center_x: 5.0, center_y: 5.0, width: 10.0, height: 10.0)
     end
 
-    it 'is not valid if it intersects with an existing square' do
-      intersecting_square = build(:square, center_x: 10.0, center_y: 10.0, width: 10.0, height: 10.0)
-      expect(intersecting_square).not_to be_valid
-      expect(intersecting_square.errors[:base]).to include(/intersect/i)
+    it 'is not valid if it intersects with an existing frame' do
+      intersecting_frame = build(:frame, center_x: 10.0, center_y: 10.0, width: 10.0, height: 10.0)
+      expect(intersecting_frame).not_to be_valid
+      expect(intersecting_frame.errors[:base]).to include(/intersect/i)
     end
   end
 end

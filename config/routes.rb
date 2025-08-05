@@ -1,11 +1,7 @@
 Rails.application.routes.draw do
-  resources :squares, path: "frames" do
-    resources :circles, path: "circles"
+  resources :frames do
+    resources :circles, only: [:index, :create, :show, :update, :destroy]
   end
 
-  # Additional routes for specific actions
-  put "circles/:id", to: "circles#update"
-  get "circles", to: "circles#index"
-  delete "circles/:id", to: "circles#destroy"
-  delete "frames/:id", to: "squares#destroy"
+  resources :circles, only: [:index, :show, :update, :destroy]
 end

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :circle do
-    square
+    frame
     center_x { 5.0 }
     center_y { 5.0 }
     diameter { 5.0 }

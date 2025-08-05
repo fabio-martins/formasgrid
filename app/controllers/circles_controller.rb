@@ -1,13 +1,13 @@
 class CirclesController < ApplicationController
-  before_action :set_square, only: [ :create, :index ]
-  before_action :set_circle, only: [ :update, :destroy ]
+  before_action :set_frame, only: [:create, :index]
+  before_action :set_circle, only: [:update, :destroy]
 
   def create
-    @circle = @square.circles.new(circle_params)
+    @circle = @frame.circles.new(circle_params)
     if @circle.save
       render json: @circle, serializer: CircleSerializer, status: :created
     else
-      render json: @circle.errors, status: :unprocessable_entity
+      render json: @circle.errors, status: :unprocessable_content
     end
   end
 
@@ -15,20 +15,27 @@ class CirclesController < ApplicationController
     if @circle.update(circle_params)
       render json: @circle, serializer: CircleSerializer
     else
-      render json: @circle.errors, status: :unprocessable_entity
+      render json: @circle.errors, status: :unprocessable_content
     end
   end
 
   def index
-    service = CircleFilterService.call(circles:  @square.circles,
+    if params[:frame_id].present?
+      @frame = Frame.find(params[:frame_id])
+      circles = @frame.circles
+    else
+      circles = Circle.all
+    end
+
+    service = CircleFilterService.call(circles: circles,
                                        center_x: params[:center_x],
                                        center_y: params[:center_y],
-                                       radius:   params[:radius])
+                                       radius: params[:radius])
 
     if service.success?
       render json: { circles: service.data[:result] }, root: "circles", adapter: :json
     else
-      render json: { error: service.data[:errors] }, status: :unprocessable_entity
+      render json: { error: service.data[:errors] }, status: :unprocessable_content
     end
   end
 
@@ -39,8 +46,8 @@ class CirclesController < ApplicationController
 
   private
 
-  def set_square
-    @square = Square.find(params[:square_id])
+  def set_frame
+    @frame = Frame.find(params[:frame_id])
   end
 
   def set_circle
