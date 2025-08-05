@@ -1,8 +1,8 @@
 FactoryBot.define do
-  factory :square do
+  factory :circle do
+    square
     center_x { 5.0 }
     center_y { 5.0 }
-    width    { 10.0 }
-    height   { 10.0 }
+    diameter { 5.0 }
   end
 end
