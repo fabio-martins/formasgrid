@@ -11,10 +11,10 @@ class Square < ApplicationRecord
     Square.all.each do |other_square|
       next if self == other_square
 
-      if (self.center_x - self.width / 2 < other_square.center_x + other_square.width / 2 &&
+      if self.center_x - self.width / 2 < other_square.center_x + other_square.width / 2 &&
           self.center_x + self.width / 2 > other_square.center_x - other_square.width / 2 &&
           self.center_y - self.height / 2 < other_square.center_y + other_square.height / 2 &&
-          self.center_y + self.height / 2 > other_square.center_y - other_square.height / 2)
+          self.center_y + self.height / 2 > other_square.center_y - other_square.height / 2
         errors.add(:base, "Squares cannot touch or intersect.")
       end
     end

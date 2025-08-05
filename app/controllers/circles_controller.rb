@@ -1,6 +1,6 @@
 class CirclesController < ApplicationController
-  before_action :set_square, only: [:create, :index]
-  before_action :set_circle, only: [:update, :destroy]
+  before_action :set_square, only: [ :create, :index ]
+  before_action :set_circle, only: [ :update, :destroy ]
 
   def create
     @circle = @square.circles.new(circle_params)

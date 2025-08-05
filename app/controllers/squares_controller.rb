@@ -1,5 +1,5 @@
 class SquaresController < ApplicationController
-  before_action :set_square, only: [:show, :destroy]
+  before_action :set_square, only: [ :show, :destroy ]
 
   def create
     @square = Square.new(square_params)
