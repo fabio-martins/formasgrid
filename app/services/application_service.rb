@@ -1,4 +1,6 @@
 
+require "ostruct"
+
 class ApplicationService
   attr_reader :args, :result
 

@@ -1,11 +1,12 @@
 class CircleFilterService < ApplicationService
   def call
-    return handle_failure("Center coordinates and radius must be provided.") unless valid_params?
+    binding.pry
+    return handle_failure(error: "Center coordinates and radius must be provided.") unless valid_params?
 
     handle_success(result: filter_circles)
   rescue StandardError => e
     Rails.logger.error("[CircleFilterService]: #{e.class} - #{e.message}")
-    handle_failure("An error occurred while filtering circles.")
+    handle_failure(error: "An error occurred while filtering circles.")
   end
 
   private
@@ -19,10 +20,5 @@ class CircleFilterService < ApplicationService
       distance = Math.sqrt((circle.center_x - args[:center_x])**2 + (circle.center_y - args[:center_y])**2)
       distance <= args[:radius]
     end
-  end
-
-  def handle_failure(message)
-    Rails.logger.warn("[CircleFilterService]: #{message}")
-    []
   end
 end

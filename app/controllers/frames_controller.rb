@@ -1,5 +1,5 @@
 class FramesController < ApplicationController
-  before_action :set_frame, only: [:show, :destroy]
+  before_action :set_frame, only: [ :show, :destroy ]
 
   def create
     @frame = Frame.new(frame_params)
@@ -36,7 +36,7 @@ class FramesController < ApplicationController
 
   def create_circles
     params[:circles].each do |circle_params|
-      @frame.circles.create(circle_params.permit(:center_x, :center_y, :diameter))
+      @frame.circles.create(circle_params.permit(:center_x, :center_y, :radius))
     end
   end
 end
