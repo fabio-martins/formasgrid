@@ -20,13 +20,12 @@ services:
       DBUSER: ${POSTGRES_USER:-postgres}
       DBPASSWORD: ${POSTGRES_PASSWORD:-postgres}
     depends_on:
-      - database
+      - formasgrid_database
     networks:
       - formasgrid_network
-      - sig_services_network
-  database:
+  formasgrid_database:
     image: postgres:alpine
-    container_name: database
+    container_name: formasgrid_database
     volumes:
       - postgresql:/var/lib/postgresql/data
     environment:
