@@ -4,7 +4,7 @@ info:
   title: API V1
   version: v1
 paths:
-  "/circles":
+  "/v1/circles":
     get:
       summary: List circles with filters
       tags:
@@ -50,9 +50,7 @@ paths:
                       type: number
                     frame_id:
                       type: integer
-        '422':
-          description: invalid request
-  "/circles/{id}":
+  "/v1/circles/{id}":
     parameters:
     - name: id
       in: path
@@ -88,7 +86,40 @@ paths:
       responses:
         '204':
           description: circle deleted
-  "/frames":
+  "/v1/frames/{frame_id}/circles":
+    parameters:
+    - name: frame_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    post:
+      summary: Create a circle in a frame
+      tags:
+      - Circles
+      parameters: []
+      responses:
+        '201':
+          description: circle created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                center_x:
+                  type: number
+                center_y:
+                  type: number
+                radius:
+                  type: number
+              required:
+              - center_x
+              - center_y
+              - radius
+  "/v1/frames":
     post:
       summary: Create a frame
       tags:
@@ -129,7 +160,7 @@ paths:
               - center_y
               - width
               - height
-  "/frames/{id}":
+  "/v1/frames/{id}":
     parameters:
     - name: id
       in: path

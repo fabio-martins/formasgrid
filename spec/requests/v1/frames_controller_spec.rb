@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Frames API", type: :request do
+RSpec.describe V1::FramesController, type: :request do
   let(:valid_frame_params) do
     {
       frame: {
@@ -16,7 +16,7 @@ RSpec.describe "Frames API", type: :request do
     context "with valid params" do
       it "creates a frame" do
         expect {
-          post "/frames", params: valid_frame_params, as: :json
+          post "/v1/frames", params: valid_frame_params, as: :json
         }.to change(Frame, :count).by(1)
 
         expect(response).to have_http_status(:created)
@@ -34,7 +34,7 @@ RSpec.describe "Frames API", type: :request do
         )
 
         expect {
-          post "/frames", params: params, as: :json
+          post "/v1/frames", params: params, as: :json
         }.to change(Frame, :count).by(1)
          .and change(Circle, :count).by(2)
 
@@ -47,7 +47,7 @@ RSpec.describe "Frames API", type: :request do
     context "with invalid params" do
       it "returns :unprocessable_content" do
         params = { frame: { center_x: nil, center_y: nil } }
-        post "/frames", params: params, as: :json
+        post "/v1/frames", params: params, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body).to be_a(Hash)
       end
@@ -58,7 +58,7 @@ RSpec.describe "Frames API", type: :request do
     let!(:frame) { create(:frame, center_x: 5, center_y: 5, width: 20, height: 20) }
 
     it "returns the frame" do
-      get "/frames/#{frame.id}", as: :json
+      get "/v1/frames/#{frame.id}", as: :json
       expect(response).to have_http_status(:ok)
       json = response.parsed_body
       expect(json).to include("center_x" => 5.0, "center_y" => 5.0)
@@ -72,7 +72,7 @@ RSpec.describe "Frames API", type: :request do
 
       it "deletes the frame" do
         expect {
-          delete "/frames/#{frame.id}", as: :json
+          delete "/v1/frames/#{frame.id}", as: :json
         }.to change(Frame, :count).by(-1)
         expect(response).to have_http_status(:no_content)
       end
@@ -84,7 +84,7 @@ RSpec.describe "Frames API", type: :request do
 
       it "does not delete the frame" do
         expect {
-          delete "/frames/#{frame.id}", as: :json
+          delete "/v1/frames/#{frame.id}", as: :json
         }.not_to change(Frame, :count)
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body).to include("error" => "Cannot delete frame with associated circles.")

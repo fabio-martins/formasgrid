@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe "Circles API", type: :request do
+RSpec.describe V1::CirclesController, type: :request do
   let!(:frame)   { create(:frame, center_x: 20, center_y: 20, width: 50, height: 50) }
-  let!(:circle) { create(:circle, frame: frame, center_x: 10, center_y: 10, radius: 4) }
+  let!(:circle)  { create(:circle, frame: frame, center_x: 10, center_y: 10, radius: 4) }
   let!(:circle2) { create(:circle, frame: frame, center_x: 20, center_y: 10, radius: 4) }
 
-  describe "PUT /circles/:id" do
+  describe "PUT /v1/circles/:id" do
     it "updates the circle" do
       params = { circle: { center_x: 30, center_y: 30, radius: circle.radius } }
-      put "/circles/#{circle.id}", params: params, as: :json
+      put "/v1/circles/#{circle.id}", params: params, as: :json
 
       expect(response).to have_http_status(:ok)
       json = response.parsed_body
@@ -17,13 +17,12 @@ RSpec.describe "Circles API", type: :request do
 
     it "returns errors for invalid data" do
       params = { circle: { radius: -1, center_x: circle.center_x, center_y: circle.center_y } }
-      put "/circles/#{circle.id}", params: params, as: :json
+      put "/v1/circles/#{circle.id}", params: params, as: :json
 
       expect(response).to have_http_status(:unprocessable_entity).or have_http_status(:unprocessable_content)
       expect(response.parsed_body).not_to be_empty
     end
   end
-
 
   describe "GET /circles" do
     before do
@@ -33,7 +32,7 @@ RSpec.describe "Circles API", type: :request do
     end
 
     it "returns circles for global filter with frame_id and position" do
-      get "/circles", params: {
+      get "/v1/circles", params: {
         center_x: 20, center_y: 20, radius: 20, frame_id: frame.id
       }
 
@@ -47,7 +46,7 @@ RSpec.describe "Circles API", type: :request do
         OpenStruct.new(success?: false, data: { error: "Invalid params" })
       )
 
-      get "/circles", params: {
+      get "/v1/circles", params: {
         center_x: nil, center_y: nil, radius: nil, frame_id: frame.id
       }
 
@@ -59,7 +58,7 @@ RSpec.describe "Circles API", type: :request do
   describe "DELETE /circles/:id" do
     it "deletes the circle" do
       expect {
-        delete "/circles/#{circle.id}", as: :json
+        delete "/v1/circles/#{circle.id}", as: :json
       }.to change(Circle, :count).by(-1)
       expect(response).to have_http_status(:no_content)
     end

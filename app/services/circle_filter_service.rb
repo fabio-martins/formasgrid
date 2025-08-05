@@ -1,6 +1,5 @@
 class CircleFilterService < ApplicationService
   def call
-    binding.pry
     return handle_failure(error: "Center coordinates and radius must be provided.") unless valid_params?
 
     handle_success(result: filter_circles)

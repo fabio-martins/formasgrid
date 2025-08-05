@@ -1,7 +1,7 @@
 require 'swagger_helper'
 
 RSpec.describe 'Frames API', swagger_doc: 'v1/swagger.yaml', type: :request do
-  path '/frames' do
+  path '/v1/frames' do
     post 'Create a frame' do
       tags 'Frames'
       consumes 'application/json'
@@ -62,7 +62,7 @@ RSpec.describe 'Frames API', swagger_doc: 'v1/swagger.yaml', type: :request do
     end
   end
 
-  path '/frames/{id}' do
+  path '/v1/frames/{id}' do
     parameter name: :id, in: :path, type: :integer
 
     get 'Retrieve a frame' do
