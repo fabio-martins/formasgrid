@@ -20,14 +20,16 @@ class CirclesController < ApplicationController
   end
 
   def index
-    @circles = @square.circles
-    if params[:center_x].present? && params[:center_y].present? && params[:radius].present?
-      @circles = @circles.select do |circle|
-        distance = Math.sqrt((circle.center_x - params[:center_x].to_f)**2 + (circle.center_y - params[:center_y].to_f)**2)
-        distance <= params[:radius].to_f
-      end
+    service = CircleFilterService.call(circles:  @square.circles,
+                                       center_x: params[:center_x],
+                                       center_y: params[:center_y],
+                                       radius:   params[:radius])
+
+    if service.success?
+      render json: { circles: service.data[:result] }, root: "circles", adapter: :json
+    else
+      render json: { error: service.data[:errors] }, status: :unprocessable_entity
     end
-    render json: @circles, each_serializer: CircleSerializer
   end
 
   def destroy
