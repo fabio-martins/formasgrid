@@ -54,7 +54,7 @@ group :development, :test do
   gem "pry-byebug"
   gem "pry-rails"
 
-  gem "factory_bot_rails", "~> 6.0"
+  gem "factory_bot_rails", "~> 6.5"
   gem "rswag"
 end
 
